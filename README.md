@@ -1,6 +1,6 @@
-# dtk
+# kerMIT
 
-python implementation of Python implementation of kerMITencoder and kerMITviz.
+Python implementation of kerMITencoder and kerMITviz.
 
 # Installation
 ```
