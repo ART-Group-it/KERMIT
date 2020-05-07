@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<head>
+  <title>Tree Visualization</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<html>
+<style type="text/css">
+img { text-align: center; }
+.nobr { white-space: nowrap; }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<!--<link type="text/css" href="css/cupertino/jquery-ui-1.8.18.custom.css" rel="stylesheet" />-->
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="js/base64.js"></script>
+<script type="text/javascript" src="js/canvas2image.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.0.2/chroma.min.js"></script>
+<script type="text/javascript" src="js/syntree.js"></script>
+<script type="text/javascript" src="js/jszip.js"></script>
+<script type="text/javascript" src="js/FileSaver.js"></script>
+<!--<script type="text/javascript" src="trees_to_show.js"></script>-->
+<!--<script type="text/javascript" src="trees_to_show_v2.json"></script>-->
+<script type="text/javascript" src="heat_parse_trees/act_trees.js"></script>
+<script>
+
+  function b64toBlob(b64Data, contentType, sliceSize) {
+        contentType = contentType || '';
+        sliceSize = sliceSize || 512;
+
+        var byteCharacters = atob(b64Data);
+        var byteArrays = [];
+
+        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            var byteNumbers = new Array(slice.length);
+            for (var i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            var byteArray = new Uint8Array(byteNumbers);
+
+            byteArrays.push(byteArray);
+        }
+
+      var blob = new Blob(byteArrays, {type: contentType});
+      return blob;
+}
+	function stampaAlbero(dataTree){
+    // var dataTree = [{'Predicted': 1, 'Actual': 2, 'ACT': ['(S:-1:0.15625851 (SBAR:2:0.67770517 (IN:-1:0.6774052 If:0) (S:2:0.93137175 (NP:1:0.92458296 (NNP:1:0.49933118 Turkey:0)) (VP:2:1.0 (VBZ:2:0.9520936 joins:0) (NP:-1:0.9862118 (PP:3:0.9107317 (IN:-1:0.8011217 of:0) (NP:3:0.81161964 (DT:-1:0.5818463 the:0) (NN:3:0.58171475 EU:0))))))))','(S:-1:0.0754529 (SBAR:2:0.51656216 (IN:-1:0.51656216 If:0) (S:2:0.73131275 (NP:1:0.7255087 (NNP:1:0.36565638 Turkey:0)) (VP:2:0.78935343 (VBZ:2:0.74872494 joins:0) (NP:-1:0.7777453 (PP:3:0.71390057 (IN:-1:0.62103546 of:0) (NP:3:0.62974155 (DT:-1:0.4353052 the:0) (NN:3:0.4353052 EU:0))))))))','(S:-1:0.0754529 (SBAR:2:0.51656216 (IN:-1:0.51656216 If:0) (S:2:0.73131275 (NP:1:0.7255087 (NNP:1:0.36565638 Turkey:0)) (VP:2:0.78935343 (VBZ:2:0.74872494 joins:0) (NP:-1:0.7777453 (PP:3:0.71390057 (IN:-1:0.62103546 of:0) (NP:3:0.62974155 (DT:-1:0.4353052 the:0) (NN:3:0.4353052 EU:0))))))))','(S:-1:0.0754529 (SBAR:2:0.51656216 (IN:-1:0.51656216 If:0) (S:2:0.73131275 (NP:1:0.7255087 (NNP:1:0.36565638 Turkey:0)) (VP:2:0.78935343 (VBZ:2:0.74872494 joins:0) (NP:-1:0.7777453 (PP:3:0.71390057 (IN:-1:0.62103546 of:0) (NP:3:0.62974155 (DT:-1:0.4353052 the:0) (NN:3:0.4353052 EU:0))))))))']}];
+	  //var dataTree= [['(SBARQ::0.5040801 (WHADVP::0.6684179 (WRB::0.6716206 How:0.4463062) (RB::0.4109046 far:0.4461882)) (SQ::0.3576242 (VBZ::0.20025207 is:0.4269872) (NP::0.53036106 (PRP::0.5542094 it:0.25768915)) (PP::0.0 (IN::0.22741197 from:0.12044872) (NP::0.26359826 (NP::0.50547266 (NNP::0.71555835 Denver:1.0)) (PP::0.36098146 (TO::0.49652708 to:0.67376584) (NP::0.40785906 (NNP::0.5789126 Aspen:0.1797456)))))) (.::0.4980497 ?:0.62386376))','NUM',"NUM"]]
+      //dataTree ="[{'ACT_0': '(SBARQ::0.032159522 (WHNP::0.02626213 (WP::0.09478218 What:0.16868128)) (SQ::0.0 (VBZ::0.015603084 is:0.12838647) (NP::0.006386166 (DT::0.04835623 an:0.14543964) (NN::0.04797159 atom:0.14492767))) (.::0.025866047 ?:0.13242102))', 'ACT_1': '(SBARQ::0.9004606 (WHNP::0.9187207 (WP::0.70706415 What:0.48179385)) (SQ::1.0 (VBZ::0.94991034 is:0.6019615) (NP::0.97939765 (DT::0.8488158 an:0.5511477) (NN::0.84929985 atom:0.55179024))) (.::0.9138366 ?:0.5860354))', 'ACT_2': '(SBARQ::0.25879782 (WHNP::0.26033202 (WP::0.26544592 What:0.2596432)) (SQ::0.26144335 (VBZ::0.2610122 is:0.25316128) (NP::0.26241153 (DT::0.2594338 an:0.25214234) (NN::0.26057407 atom:0.25292853))) (.::0.26182872 ?:0.25518507))', 'ACT_3': '(SBARQ::0.5135637 (WHNP::0.52663857 (WP::0.43334076 What:0.3313817)) (SQ::0.5537129 (VBZ::0.5319887 is:0.3908319) (NP::0.545151 (DT::0.49414802 an:0.3724251) (NN::0.49246582 atom:0.37121615))) (.::0.5169922 ?:0.38284472))', 'ACT_4': '(SBARQ::0.11226807 (WHNP::0.106804766 (WP::0.14696166 What:0.19511525)) (SQ::0.091345474 (VBZ::0.1022819 is:0.17322199) (NP::0.09540694 (DT::0.12089873 an:0.18117853) (NN::0.121395476 atom:0.18174721))) (.::0.10962627 ?:0.17593543))', 'ACT_5': '(SBARQ::0.14174849 (WHNP::0.13571875 (WP::0.16891181 What:0.20797443)) (SQ::0.12644717 (VBZ::0.13478917 is:0.18950622) (NP::0.1297973 (DT::0.15137431 an:0.19832268) (NN::0.1512166 atom:0.1980767))) (.::0.14332792 ?:0.19514088))'}]";
+      //dataTree = dataTree.replace(/'+/g, '"');
+      //console.log(dataTree);
+
+      //var obj = JSON.parse(dataTree);
+      //var obj = JSON.parse(dataTree);
+      var obj=act_trees;
+      console.log(obj);
+      //console.log(JSON.stringify(obj) === JSON.stringify(tree2));
+      tree=obj;
+
+		/*
+		tree = dataTree[d];
+		arrayLabels = ['ABBR','ENTY','DESC','HUM','LOC','NUM'];
+
+		predicted = tree['Predicted']
+		actual = tree['Actual']
+		treeAct = tree['ACT']
+
+		//$("#lable-goes-here").empty();
+		//$('#lable-goes-here').append("<p> Predicted: " + predicted + " " + arrayLabels[predicted] +"</p>");
+		//$('#lable-goes-here').append("<p> Actual: " + actual + " " + arrayLabels[actual] +" </p>");
+
+		//$("#image-goes-here").empty();
+
+      */
+       //MOdificare i parametri draw_tree : per la dimensione png: il primo valore numerico è dimensione caratteri
+      for (j = 0; j < Object.keys(tree[0]).length ; j++) {
+        var subdiv = document.createElement("DIV");
+        //draw_tree(str, font_size, term_font, nonterm_font, vert_space, hor_space, color, term_lines) {
+        var img = draw_tree(tree[0]['ACT_'+j], 30, "sans-serif", "times-new-roman", 50, 20, "true", "red");
+        console.log("img", img);//30 50 20
+        var nodo = document.createTextNode('ACT_'+j);
+        subdiv.className = "row";
+        subdiv.style = "height:700px;";
+        console.log("nodo", nodo);
+        subdiv.append(nodo);
+        subdiv.append(img);
+        $("#image-goes-here").append(subdiv);
+      }
+      /*
+		// 1: sono 2 le sentence quindi 2 oggetti
+      //for (i = 0; i < tree.length ; i++) {
+        var zip = new JSZip();
+        //var img_dir = zip.folder("images");
+        for (j = 0; j < tree.length ; j++) {
+          var subdiv = document.createElement("DIV");
+          var tag_a = document.createElement("a");
+          var img = draw_tree(tree[j][0], 10, "sans-serif", "times-new-roman", 50, 20, "true", "red");
+          console.log("img", img);
+         // Split the base64 string in data and contentType
+          var block = img.src.split(";");
+          // Get the content type of the image
+          var contentType = block[0].split(":")[1];// In this case "image/png"
+          // get the real base64 content of the file
+          var realData = block[1].split(",")[1];// 
+          var blob = b64toBlob(realData, contentType);
+          zip.file('ID_'+j+".png", blob, {
+            compression: "STORE" // force a compression for this file
+        });
+          //tag_a.setAttribute("download",'ID_'+j)
+          //tag_a.setAttribute("href",img.src)
+          var nodo = document.createTextNode('ID_'+j);
+          subdiv.className = "row";
+          subdiv.style = "height:700px;";
+          console.log("nodo", nodo);
+          subdiv.append(nodo);
+          subdiv.append(img);
+          //subdiv.append(tag_a);
+          $("#image-goes-here").append(subdiv);
+        }
+        zip.generateAsync({
+            type: "blob",
+            compression: "DEFLATE"
+        })
+        .then(function(content) {
+            // see FileSaver.js
+            saveAs(content, "example.zip");
+        });
+        */
+        /*
+        for (j = 0; j < Object.keys(tree[1]).length ; j++) {
+          var subdiv = document.createElement("DIV");
+          var img = draw_tree(tree[1]['ACT_'+j], 30, "sans-serif", "times-new-roman", 50, 20, "true", "red");
+          console.log("img", img);
+          var nodo = document.createTextNode('ACT_'+j);
+          subdiv.className = "row";
+          subdiv.style = "height:700px;";
+          console.log("nodo", nodo);
+          subdiv.append(nodo);
+          subdiv.append(img);
+          $("#image-goes-here2").append(subdiv);
+        }
+        */
+      //}
+
+
+	}
+
+    window.onload = function() {
+     //Only GET PARAM
+      // var textArea = document.getElementById("text");
+      //var url_string = window.location.href; //window.location.href
+      //var url = new URL(url_string);
+      //var tree_param = url.searchParams.get("tree");
+      //console.log("param:", tree_param);
+      stampaAlbero();
+
+      // textArea.value = tree_param;
+    }
+</script>
+
+<body>
+<!--<div class="jumbotron text-center">
+
+  <div id="lable-goes-here" class="">
+  </div>
+
+  <canvas id="gradient" width="200" height="100"
+          style="">
+  </canvas>
+</div>-->
+
+<div class="text-center">
+<canvas id="gradient" width="200" height="50"
+        style="">
+</canvas>
+</div>
+<div class="col-md-12 col-lg-12 col-xs-12 text-center">
+  <div id="image-goes-here"></div>
+</div>
+
+
+
+
+
+</body>
+
+<script>
+//Modificare questo indice per stampare gli altri alberi
+//stampaAlbero(2)
+
+
+var c = document.getElementById("gradient");
+var ctx = c.getContext("2d");
+
+
+
+// Create gradient
+var grd = ctx.createLinearGradient(0,0,150,0);
+grd.addColorStop(0,actToCSS(0));
+grd.addColorStop(0.25,actToCSS(0.25));
+grd.addColorStop(0.5,actToCSS(0.5));
+grd.addColorStop(0.75,actToCSS(0.75));
+grd.addColorStop(1,actToCSS(1));
+
+// Fill with gradient
+ctx.fillStyle = grd;
+ctx.fillRect(10,10,150,20);
+</script>
+
+</html>

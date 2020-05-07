@@ -1,0 +1,14 @@
+2020-02-25 11:42:43,313 [202] DEBUG    root:197: [JupyterRequire] Configuration requested: {'paths': {'d3': 'https://d3js.org/d3.v5.min', 'd3-hierarchy': 'https://d3js.org/d3-hierarchy.v1.min'}, 'shim': None}
+2020-02-25 11:42:53,438 [202] DEBUG    root:197: [JupyterRequire] Configuration requested: {'paths': {'d3': 'https://d3js.org/d3.v5.min'}, 'shim': None}
+2020-02-25 11:43:27,219 [202] DEBUG    parso.python.diff:128: [JupyterRequire] diff parser start
+2020-02-25 11:43:27,219 [202] DEBUG    parso.python.diff:139: [JupyterRequire] diff parser calculated
+2020-02-25 11:43:27,219 [202] DEBUG    parso.python.diff:140: [JupyterRequire] diff: line_lengths old: 2, new: 1
+2020-02-25 11:43:27,219 [202] DEBUG    parso.python.diff:144: [JupyterRequire] diff code[replace] old[1:2] new[1:1]
+2020-02-25 11:43:27,220 [202] DEBUG    parso.python.diff:263: [JupyterRequire] parse_part from 1 to 1 (to 0 in part parser)
+2020-02-25 11:43:27,220 [202] DEBUG    parso.python.diff:173: [JupyterRequire] diff parser end
+2020-02-25 11:43:27,756 [202] DEBUG    parso.python.diff:128: [JupyterRequire] diff parser start
+2020-02-25 11:43:27,756 [202] DEBUG    parso.python.diff:139: [JupyterRequire] diff parser calculated
+2020-02-25 11:43:27,756 [202] DEBUG    parso.python.diff:140: [JupyterRequire] diff: line_lengths old: 1, new: 1
+2020-02-25 11:43:27,757 [202] DEBUG    parso.python.diff:144: [JupyterRequire] diff code[replace] old[1:1] new[1:1]
+2020-02-25 11:43:27,757 [202] DEBUG    parso.python.diff:263: [JupyterRequire] parse_part from 1 to 1 (to 0 in part parser)
+2020-02-25 11:43:27,757 [202] DEBUG    parso.python.diff:173: [JupyterRequire] diff parser end

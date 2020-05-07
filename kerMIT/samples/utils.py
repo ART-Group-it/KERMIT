@@ -1,0 +1,50 @@
+from kerMIT import tree
+from kerMIT.dtk import DT
+from tqdm import tqdm
+import re
+from tree_encode import parse as parse_tree
+import torch
+import pickle
+import copy
+import transformers
+from torchtext import data as datx
+from torch import nn
+from torch import optim
+
+#if torch.cuda.is_available(): torch.cuda.manual_seed_all(10)
+if torch.cuda.is_available(): torch.cuda.manual_seed_all(3)
+
+def get_sentence(sentence, calculator):
+    # genero la forma parentetica
+    tree_sentence = parse_tree(sentence)
+    tree_sentence = re.sub("\("," (",tree_sentence)
+    tree_sentence = tree_sentence[1:]
+    # prendo i token di BERT
+    bert_sentence = get_token_BERT(sentence)
+    # calcolo il DTK
+    alberoCompleto = tree.Tree(string=tree_sentence)
+    dtk_sentence = calculator.dt(alberoCompleto).reshape(1,4000)
+    dtk_sentence = torch.from_numpy(dtk_sentence).float().cuda()
+    return tree_sentence, dtk_sentence, bert_sentence
+
+
+
+#inizializzo tokenizzatore
+tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
+
+# bert prende in input un tensore di dim (51,). Nella segunete funzione codifico la sentence in input e poi sommo il tensore risultante con un tensore di dim (51,) inizializzato a 0
+#NB ---> ORA(se tensore di encoding è maggiore di (51,) non lo considero e uso un tensore di (51,0) nullo) 
+#TODO ---> se tensore di encoding è maggiore di (51,) si dovrebbero prendere solo i primi (51,)
+def get_token_BERT(sentence):
+    
+    input_ids1 = torch.tensor(tokenizer.encode(sentence, add_special_tokens=True))
+
+    input_ids = torch.nn.functional.pad(input_ids1, (0, (51-input_ids1.shape[0]))).unsqueeze(0).cuda()
+    
+    if (input_ids.shape[0]>51):
+        print('Bert problem')
+        x_sem = torch.zeros(1, 51).cuda()
+        x_sem = torch.tensor(x_sem).to(torch.int64)
+        input_ids = x_sem
+        
+    return input_ids

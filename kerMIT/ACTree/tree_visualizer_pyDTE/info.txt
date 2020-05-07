@@ -1,0 +1,3 @@
+PER MODIFICARE I MARGINI TRA I SOTTOALBERI:
+MODIFICARE ALL'INTERNO DEL FILE syntree.js:
+1)Node.prototype.set_width ---> la proporzione dell'attributo : this.step

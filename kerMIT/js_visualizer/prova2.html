@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+body { font-size: small !important; font-family: sans-serif; margin: 20px; background-color: #ffffff}
+#accordion { margin: 0px auto; width: 500px; text-align: center; }
+table { margin: 0px auto; }
+//.ui-widget { font-size:small !important; }
+td {font-size:small !important;}
+textarea {resize: vertical; width: 100%}
+a.example { text-decoration: none; color: #4183C4!important; }
+.help {text-align: left;}
+#image-goes-here { text-align: center; }
+#gradient_div {text-align: center}
+img { border: 1px solid #bbbbbb; }
+.nobr { white-space: nowrap; }
+</style>
+
+<link type="text/css" href="css/cupertino/jquery-ui-1.8.18.custom.css" rel="stylesheet" />	
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="js/base64.js"></script>
+<script type="text/javascript" src="js/canvas2image.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.0.2/chroma.min.js"></script>
+<script type="text/javascript" src="js/syntree.js"></script>
+<!--<script type="text/javascript" src="trees_to_show.js"></script>-->
+<!--<script type="text/javascript" src="trees_to_show_v2.json"></script>-->
+<script type="text/javascript" src="attivazioni.json"></script>
+<script>
+	function stampaAlbero(iesimoElemento){
+		d = iesimoElemento
+		tree = dataTree[d]
+		arrayLabels = ['ABBR','ENTY','DESC','HUM','LOC','NUM']
+
+		predicted = tree['Predicted']
+		actual = tree['Actual']
+		treeAct = tree['ACT']
+		$("#lable-goes-here").empty();
+		$('#lable-goes-here').append("<p> Predicted: " + predicted + " " + arrayLabels[predicted] +"</p>");
+		$('#lable-goes-here').append("<p> Actual: " + actual + " " + arrayLabels[actual] +" </p>");
+
+		$("#image-goes-here").empty();
+		for (i = 0; i < treeAct.length ; i++) {
+			var subdiv = document.createElement("DIV");
+			var img = draw_tree(treeAct[i], 30, "sans-serif", "times-new-roman", 50, 20, "true", "red");
+			var nodo = document.createTextNode(i);
+			subdiv.append(nodo);
+			subdiv.append(img);
+			$("#image-goes-here").append(subdiv);
+		}
+	}
+
+	function onClick(){
+		var num = $('#num').val();
+		console.log(num)
+		return stampaAlbero(num);
+	}
+</script>
+
+<body>
+
+<form>
+  Number in array: <input id="num" type="number" name="num"><br>
+  <button type="button" value="Submit" onclick="onClick();">
+</form>
+
+<div id="lable-goes-here">
+</div>
+
+<div id="image-goes-here"></div>
+<div id="gradient_div">
+<canvas id="gradient" width="200" height="100"
+style="border:1px solid #d3d3d3;">
+</div>
+</canvas>
+
+
+</body>
+
+<script>
+//Modificare questo indice per stampare gli altri alberi
+//stampaAlbero(2)
+
+
+var c = document.getElementById("gradient");
+var ctx = c.getContext("2d");
+
+
+
+// Create gradient
+var grd = ctx.createLinearGradient(0,0,150,0);
+grd.addColorStop(0,actToCSS(0));
+grd.addColorStop(0.25,actToCSS(0.25));
+grd.addColorStop(0.5,actToCSS(0.5));
+grd.addColorStop(0.75,actToCSS(0.75));
+grd.addColorStop(1,actToCSS(1));
+
+// Fill with gradient
+ctx.fillStyle = grd;
+ctx.fillRect(10,10,150,20);
+</script>
+
+</html>
