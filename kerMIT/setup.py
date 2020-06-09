@@ -16,5 +16,5 @@ setup(
     # Choose your license
     license = 'MIT',
     packages = find_packages(),
-    install_requires = ['numpy', 'nltk', 'colormap', 'easydev']
+    install_requires = ['numpy', 'nltk', 'colormap', 'easydev','StanfordCoreNLP', 'pandas']
 )

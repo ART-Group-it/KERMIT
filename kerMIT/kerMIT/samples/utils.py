@@ -2,7 +2,7 @@ from kerMIT import tree
 from kerMIT.dtk import DT
 from tqdm import tqdm
 import re
-from tree_encode import parse as parse_tree
+from kerMIT.tree_encode import parse as parse_tree
 import torch
 import pickle
 import copy
