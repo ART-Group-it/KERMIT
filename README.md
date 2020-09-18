@@ -1,6 +1,6 @@
 # kerMIT
 
-Python implementation of kerMITencoder and kerMITviz.
+A lightweight Python library to encode and interpret Universal Syntactic Embeddings
 
 # Installation
 ```
