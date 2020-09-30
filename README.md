@@ -2,7 +2,9 @@
 
 KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
 
+# Why should I use KERMIT?
 
+1. KERMIT can be
 
 # Installation
 ```
@@ -28,9 +30,6 @@ distributedTree = dtCalculator.dt(tree)
        
 ```
 
-# Why should I use KERMIT?
-
-1. KERMIT can be
 
 # Citation
 If you use this code, please cite the paper:
