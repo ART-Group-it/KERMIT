@@ -1,6 +1,6 @@
 # 🐸 KERMIT
 
-KERMIT(Kernel-inspired Encoder with Recursive Mechanism for Interpretable Trees) is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
+KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
 
 # Installation
 ```
