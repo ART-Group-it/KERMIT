@@ -27,6 +27,9 @@ distributedTree = dtCalculator.dt(tree)
        -0.02406953,  0.01796858])
        
 ```
+
+# Why should I use KERMIT?
+       1. KERMIT can be
 # Citation
 If you use this code, please cite the paper:
 ```
