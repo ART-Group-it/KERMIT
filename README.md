@@ -1,16 +1,16 @@
-# 🐸 KERMIT
+# 🐸 KERMIT - (Kernel-inspired Encoder with Recursive Mechanism for Interpretable Trees)
 
 KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
-
-## Try It Now!
- kerMIT: [[Colab]](https://drive.google.com/file/d/1Dab_eR_c2Ko7OQUwjjgpY8vrFF3WSPaI/view?usp=sharing)
 
 # Installation
 ```
 git clone https://github.com/ART-Group-it/KERMIT.git 
-!pip install ./KERMIT/kerMIT
+pip install ./KERMIT/kerMIT
 ```
 # Usage
+
+Try it now on Google Colab! [[Colab]](https://drive.google.com/file/d/1Dab_eR_c2Ko7OQUwjjgpY8vrFF3WSPaI/view?usp=sharing)
+
 ```
 DA TERMINARE kerMIT
 from kerMIT.tree import Tree
