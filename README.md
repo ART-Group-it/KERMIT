@@ -11,7 +11,7 @@ pip install ./KERMIT/kerMIT
 
 **Try it now on Google Colab!** [[Colab]](https://drive.google.com/file/d/1Dab_eR_c2Ko7OQUwjjgpY8vrFF3WSPaI/view?usp=sharing)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ART-Group-it/KERMIT/EXPLAIN_PYTORCH-kerMIT.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ART-Group-it/KERMIT/blob/master/EXPLAIN_PYTORCH-kerMIT.ipynb)
 
 ```
 DA TERMINARE kerMIT
