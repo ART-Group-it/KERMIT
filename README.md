@@ -1,4 +1,4 @@
-# kerMIT
+# 🐸 KERMIT
 
 A lightweight Python library to encode and interpret Universal Syntactic Embeddings
 
@@ -26,5 +26,15 @@ distributedTree = dtCalculator.dt(tree)
        -0.02406953,  0.01796858])
        
 ```
-
+# Citation
+If you use this code, please cite:
+```
+@inproceedings{zanzotto-etal-2019-KERMIT,
+    title = {{KERMIT: Complementing Transformer Architectures with Encoders of Explicit Syntactic Interpretations}},
+    year = {2020},
+    booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+    author = {Zanzotto, Fabio Massimo and Santilli, Andrea and Ranaldi, Leonardo and Onorati, Dario and Tommasino, Pierfrancesco and Fallucchi, Francesca},
+    publisher = {Association for Computational Linguistics}
+}
+```
 
