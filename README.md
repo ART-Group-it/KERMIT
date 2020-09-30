@@ -1,6 +1,6 @@
 # 🐸 KERMIT
 
-A lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
+KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
 
 ## Try It Now!
  kerMIT: [[Colab]](https://drive.google.com/file/d/1Dab_eR_c2Ko7OQUwjjgpY8vrFF3WSPaI/view?usp=sharing)
