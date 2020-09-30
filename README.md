@@ -7,8 +7,8 @@ KERMIT is a lightweight Python library to **encode** and **interpret** *Universa
 
 # Installation
 ```
-cd <folder> 
-pip3 install .
+git clone https://github.com/ART-Group-it/KERMIT.git 
+!pip install ./KERMIT/kerMIT
 ```
 # Usage
 ```
