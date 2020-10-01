@@ -2,6 +2,22 @@
 
 KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
 
+![](img/kermit.png)
+
+
+Project Organization
+------------
+
+    |
+    ├── /examples                                   <- Folder containing some KERMIT examples
+    ├── /kerMIT                                     <- Folder containing the KERMIT library
+    │
+    ├── /img                                        <- Folder containing the images for this README file
+    ├── LICENSE                                     <- License file
+    └── README.md                                   <- This Readme file
+     
+--------
+
 # Why should I use KERMIT?
 
 1. KERMIT can be
