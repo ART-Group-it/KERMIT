@@ -65,7 +65,7 @@ kermit_tree_encoded = kermit_encoder.dt(tree)
 # Citation
 If you use this code, please cite the paper:
 ```
-@inproceedings{zanzotto-etal-2019-KERMIT,
+@inproceedings{zanzotto-etal-2020-KERMIT,
     title = {{KERMIT: Complementing Transformer Architectures with Encoders of Explicit Syntactic Interpretations}},
     year = {2020},
     booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
