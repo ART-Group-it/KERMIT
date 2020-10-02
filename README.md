@@ -10,8 +10,14 @@ Project Organization
 
     |
     ├── /examples                                   <- Folder containing some KERMIT examples
-    ├── /kerMIT                                     <- Folder containing the KERMIT library
-    │
+    │   └── /Notebooks       
+    |       ├── /scripts                            <- Folder containing some scripts for our examples
+    |       ├── KERMIT_encoder.ipynb                <- Jupyter Notebook for saving the KERMIT encoded trees
+    |       ├── KERMIT_training.ipynb               <- Jupyter Notebook for training a system with KERMIT
+    |       ├── KERMITviz.ipynb                     <- Jupyter Notebook for visualize KERMIT's heat parse trees
+    |       └── README.md                           <- Readme file that introduces the example notebooks
+    |
+    ├── /kerMIT                                     <- Folder containing the Python KERMIT library
     ├── /img                                        <- Folder containing the images for this README file
     ├── LICENSE                                     <- License file
     └── README.md                                   <- This Readme file
@@ -30,18 +36,20 @@ git clone https://github.com/ART-Group-it/KERMIT.git
 pip install ./KERMIT/kerMIT
 ```
 # Usage
+
+
 **Try it now on Google Colab!** [[Colab]](https://drive.google.com/file/d/1Dab_eR_c2Ko7OQUwjjgpY8vrFF3WSPaI/view?usp=sharing) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ART-Group-it/KERMIT/blob/master/EXPLAIN_PYTORCH-kerMIT.ipynb)
 
+## Quickstart with KERMIT encoder
 ```
-DA TERMINARE kerMIT
 from kerMIT.tree import Tree
 from kerMIT.dtk import DT
 from kerMIT.operation import fast_shuffled_convolution
 
 tree = Tree(string="(A (B C))")
-dtCalculator = DT(dimension=8192, LAMBDA= 0.6, operation=fast_shuffled_convolution)
+kermit_encoder = DT(dimension=8192, LAMBDA= 0.6, operation=fast_shuffled_convolution)
 
-distributedTree = dtCalculator.dt(tree)
+kermit_tree_encoded = kermit_encoder.dt(tree)
 
 >> array([-0.00952759,  0.02018453, -0.02713741, ...,  0.00362533,
        -0.02406953,  0.01796858])
