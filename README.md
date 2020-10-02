@@ -15,6 +15,7 @@ Project Organization
     |       ├── KERMIT_encoder.ipynb     <- Jupyter Notebook for saving the KERMIT encoded trees
     |       ├── KERMIT_training.ipynb    <- Jupyter Notebook for training a system with KERMIT
     |       ├── KERMITviz.ipynb          <- Jupyter Notebook for visualize KERMIT's heat parse trees
+    |       ├── KERMITviz_Colab.ipynb    <- Jupyter Notebook for visualize KERMIT's heat parse trees on Colab
     |       └── README.md                <- Readme file that introduces the example notebooks
     |
     ├── /kerMIT                          <- Folder containing the Python KERMIT library
@@ -26,9 +27,9 @@ Project Organization
 
 # Why should I use KERMIT?
 
-1. KERMIT can be used to enhance Transformers' performance on various linguistic tasks adding relevanti syntactic information from parse trees
-2. It is lightweight compared to a Transformer model
-3. KERMIT decision can be interpreted using this library and it is possible to visualize heat parse trees.
+- KERMIT can be used to enhance Transformers' performance on various linguistic tasks adding relevanti syntactic information from parse trees
+- It is lightweight compared to a Transformer model
+- KERMIT decision can be interpreted using this library and it is possible to visualize heat parse trees.
 
 # Installation
 ```
@@ -43,7 +44,7 @@ pip install ./KERMIT/kerMIT
 
 - KERMIT + BERT model - Train the model and save the weights [notebook 2](https://github.com/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMIT_training.ipynb).
 
-- KERMITviz - Visualize how much the syntax affects the final choice of the model [notebook 3](https://github.com/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMITviz.ipynb) or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMITviz.ipynb)
+- KERMITviz - Visualize how much the syntax affects the final choice of the model [notebook 3](https://github.com/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMITviz.ipynb) or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMITviz_Colab.ipynb)
 
 ## Quickstart with KERMIT encoder
 ```
