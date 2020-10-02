@@ -51,7 +51,7 @@ from kerMIT.tree import Tree
 from kerMIT.dtk import DT
 from kerMIT.operation import fast_shuffled_convolution
 
-#Insert here your parsed tree
+#Insert here your parsed tree in parenthetical format 
 tree = Tree(string="(A (B C))")
 kermit_encoder = DT(dimension=8192, LAMBDA= 0.6, operation=fast_shuffled_convolution)
 
