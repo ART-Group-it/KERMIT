@@ -2,25 +2,25 @@
 
 KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
 
-![](img/kermit.png)
 
+<img src="img/kermit.png" alt="drawing" width="200"/>
 
 Project Organization
 ------------
 
     |
-    ├── /examples                                   <- Folder containing some KERMIT examples
+    ├── /examples                        <- Folder containing some KERMIT examples
     │   └── /Notebooks       
-    |       ├── /scripts                            <- Folder containing some scripts for our examples
-    |       ├── KERMIT_encoder.ipynb                <- Jupyter Notebook for saving the KERMIT encoded trees
-    |       ├── KERMIT_training.ipynb               <- Jupyter Notebook for training a system with KERMIT
-    |       ├── KERMITviz.ipynb                     <- Jupyter Notebook for visualize KERMIT's heat parse trees
-    |       └── README.md                           <- Readme file that introduces the example notebooks
+    |       ├── /scripts                 <- Folder containing some scripts for our examples
+    |       ├── KERMIT_encoder.ipynb     <- Jupyter Notebook for saving the KERMIT encoded trees
+    |       ├── KERMIT_training.ipynb    <- Jupyter Notebook for training a system with KERMIT
+    |       ├── KERMITviz.ipynb          <- Jupyter Notebook for visualize KERMIT's heat parse trees
+    |       └── README.md                <- Readme file that introduces the example notebooks
     |
-    ├── /kerMIT                                     <- Folder containing the Python KERMIT library
-    ├── /img                                        <- Folder containing the images for this README file
-    ├── LICENSE                                     <- License file
-    └── README.md                                   <- This Readme file
+    ├── /kerMIT                          <- Folder containing the Python KERMIT library
+    ├── /img                             <- Folder containing the images for this README file
+    ├── LICENSE                          <- License file
+    └── README.md                        <- This Readme file
      
 --------
 
