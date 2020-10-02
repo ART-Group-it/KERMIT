@@ -56,8 +56,7 @@ kermit_encoder = DT(dimension=8192, LAMBDA= 0.6, operation=fast_shuffled_convolu
 
 kermit_tree_encoded = kermit_encoder.dt(tree)
 
->> array([-0.00952759,  0.02018453, -0.02713741, ...,  0.00362533,
-       -0.02406953,  0.01796858])
+>> array([-0.00952759,  0.02018453, -0.02713741, ...,  0.00362533])
        
 ```
 
