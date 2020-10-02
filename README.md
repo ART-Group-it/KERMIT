@@ -3,7 +3,7 @@
 KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
 
 
-<img src="img/kermit.png" alt="drawing" width="200"/>
+<img src="img/kermit.png" alt="drawing" width="500"/>
 
 Project Organization
 ------------
@@ -37,8 +37,13 @@ pip install ./KERMIT/kerMIT
 ```
 # Usage
 
+## Demo Notebooks
 
-**Try it now on Google Colab!** [[Colab]](https://drive.google.com/file/d/1Dab_eR_c2Ko7OQUwjjgpY8vrFF3WSPaI/view?usp=sharing) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ART-Group-it/KERMIT/blob/master/EXPLAIN_PYTORCH-kerMIT.ipynb)
+- KERMIT encoder - Build syntactic input from a custom dataset [notebook 1](https://github.com/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMIT_encoder.ipynb).
+
+- KERMIT + BERT model - Train the model and save the weights [notebook 2](https://github.com/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMIT_training.ipynb).
+
+- KERMITviz - Visualize how much the syntax affects the final choice of the model [notebook 3](https://github.com/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMITviz.ipynb) or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ART-Group-it/KERMIT/blob/master/examples/Notebooks/KERMITviz.ipynb)
 
 ## Quickstart with KERMIT encoder
 ```
