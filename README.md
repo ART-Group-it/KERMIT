@@ -14,8 +14,8 @@ Project Organization
     |       ├── /scripts                 <- Folder containing some scripts for our examples
     |       ├── KERMIT_encoder.ipynb     <- Jupyter Notebook for saving the KERMIT encoded trees
     |       ├── KERMIT_training.ipynb    <- Jupyter Notebook for training a system with KERMIT
-    |       ├── KERMITviz.ipynb          <- Jupyter Notebook for visualize KERMIT's heat parse trees
-    |       ├── KERMITviz_Colab.ipynb    <- Jupyter Notebook for visualize KERMIT's heat parse trees on Colab
+    |       ├── KERMITviz.ipynb          <- Jupyter Notebook for visualizing KERMIT's heat parse trees
+    |       ├── KERMITviz_Colab.ipynb    <- Jupyter Notebook for visualizing KERMIT's heat parse trees on Colab
     |       └── README.md                <- Readme file that introduces the example notebooks
     |
     ├── /kerMIT                          <- Folder containing the Python KERMIT library
