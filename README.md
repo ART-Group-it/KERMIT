@@ -65,13 +65,6 @@ kermit_tree_encoded = kermit_encoder.dt(tree)
 # Citation
 If you use this code, please cite the paper:
 ```
-@article{Ranaldi2020HidingYF,
-  title={Hiding Your Face Is Not Enough: user identity linkage with image recognition},
-  author={Leondardo Ranaldi and F. Zanzotto},
-  journal={Social Network Analysis and Mining},
-  year={2020},
-  volume={10},
-  pages={1-9}
-}
+
 ```
 
