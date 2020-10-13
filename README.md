@@ -60,7 +60,8 @@ kermit_tree_encoded = kermit_encoder.dt(tree)
 
 >> array([-0.00952759,  0.02018453, -0.02713741, ...,  0.00362533])
 ```
-
+## Need help?
+If you are stuck, need help, or find a bug, let us know and open an issue here on Github!
 
 # Citation
 If you use this code, please cite the paper:
