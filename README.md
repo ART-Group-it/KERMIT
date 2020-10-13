@@ -27,7 +27,7 @@ Project Organization
 
 # Why should I use KERMIT?
 
-- KERMIT can be used to enhance Transformers' performance on various linguistic tasks adding relevanti syntactic information from parse trees
+- KERMIT can be used to enhance Transformers' performance on various linguistic tasks adding relevant syntactic information from parse trees
 - It is lightweight compared to a Transformer model
 - KERMIT decision can be interpreted using this library and it is possible to visualize heat parse trees.
 
