@@ -66,12 +66,21 @@ If you are stuck, need help, or find a bug, let us know and open an issue here o
 # Citation
 If you use this code, please cite the paper:
 ```
-@inproceedings{zanzotto-etal-2020-KERMIT,
-    title = {{KERMIT: Complementing Transformer Architectures with Encoders of Explicit Syntactic Interpretations}},
-    year = {2020},
-    booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
-    author = {Zanzotto, Fabio Massimo and Santilli, Andrea and Ranaldi, Leonardo and Onorati, Dario and Tommasino, Pierfrancesco and Fallucchi, Francesca},
-    publisher = {Association for Computational Linguistics}
+@inproceedings{zanzotto-etal-2020-kermit,
+    title = "{KERMIT}: Complementing Transformer Architectures with Encoders of Explicit Syntactic Interpretations",
+    author = "Zanzotto, Fabio Massimo  and
+      Santilli, Andrea  and
+      Ranaldi, Leonardo  and
+      Onorati, Dario  and
+      Tommasino, Pierfrancesco  and
+      Fallucchi, Francesca",
+    booktitle = "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)",
+    month = nov,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/2020.emnlp-main.18",
+    pages = "256--267",
 }
 ```
 
