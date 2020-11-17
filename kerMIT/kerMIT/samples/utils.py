@@ -27,7 +27,35 @@ def get_sentence(sentence, calculator):
     dtk_sentence = torch.from_numpy(dtk_sentence).float().cuda()
     return tree_sentence, dtk_sentence, bert_sentence
 
+def get_two_sentences(sentence1, sentence2, calculator):
+    
+    # genero la forma parentetica s1
+    tree_sentence1 = parse_tree(sentence1)
+    tree_sentence1 = re.sub("\("," (",tree_sentence1)
+    tree_sentence1 = tree_sentence1[1:]
 
+    # genero la forma parentetica s2
+    tree_sentence2 = parse_tree(sentence2)
+    tree_sentence2 = re.sub("\("," (",tree_sentence2)
+    tree_sentence2 = tree_sentence2[1:]
+
+    # prendo i token di BERT
+    bert_sentence = get_token_BERT(f'{sentence1}[SEP]{sentence2}')
+
+    # calcolo il DTK s1
+    alberoCompleto1 = tree.Tree(string=tree_sentence1)
+    dtk_sentence1 = calculator.dt(alberoCompleto1).reshape(1,4000)
+    dtk_sentence1 = torch.from_numpy(dtk_sentence1).float().cuda()
+
+    # calcolo il DTK s2
+    alberoCompleto2 = tree.Tree(string=tree_sentence2)
+    dtk_sentence2 = calculator.dt(alberoCompleto2).reshape(1,4000)
+    dtk_sentence2 = torch.from_numpy(dtk_sentence2).float().cuda()
+
+    dtk_sentence = torch.cat((dtk_sentence1, dtk_sentence2))
+    tree_sentence = f'(S {tree_sentence1} {tree_sentence2} )'
+
+    return tree_sentence, dtk_sentence, bert_sentence
 
 #inizializzo tokenizzatore
 tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
