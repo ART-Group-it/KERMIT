@@ -52,7 +52,7 @@ def get_two_sentences(sentence1, sentence2, calculator):
     dtk_sentence2 = calculator.dt(alberoCompleto2).reshape(1,4000)
     dtk_sentence2 = torch.from_numpy(dtk_sentence2).float().cuda()
 
-    dtk_sentence = torch.cat((dtk_sentence1, dtk_sentence2))
+    dtk_sentence = torch.cat((dtk_sentence1, dtk_sentence2),1)
     tree_sentence = f'(S {tree_sentence1} {tree_sentence2} )'
 
     return tree_sentence, dtk_sentence, bert_sentence
