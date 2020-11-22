@@ -2,6 +2,9 @@
 
 KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
 
+**Paper**: https://www.aclweb.org/anthology/2020.emnlp-main.18/
+
+**Presentation**: https://slideslive.com/38938864
 
 <img src="img/kermit.png" alt="drawing" width="500"/>
 
