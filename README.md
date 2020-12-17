@@ -1,4 +1,14 @@
-# 🐸 KERMIT
+
+<div align="center">    
+ 
+# 🐸 KERMIT    
+
+[![Paper](http://img.shields.io/badge/paper-KERMIT-B31B1B.svg)](https://www.aclweb.org/anthology/2020.emnlp-main.18/)
+[![Presentation](http://img.shields.io/badge/presentation-KERMIT-brightgreen.svg)](https://slideslive.com/38938864)
+[![Conference](http://img.shields.io/badge/EMNLP-2020-4b44ce.svg)](https://www.aclweb.org/anthology/volumes/2020.emnlp-main/)
+  
+</div>
+
 
 KERMIT is a lightweight Python library to **encode** and **interpret** *Universal Syntactic Embeddings*
 
