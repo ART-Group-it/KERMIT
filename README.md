@@ -16,7 +16,9 @@ KERMIT is a lightweight Python library to **encode** and **interpret** *Universa
 
 **Presentation**: https://slideslive.com/38938864
 
+<div align="center">
 <img src="img/kermit.png" alt="drawing" width="500"/>
+</div>
 
 Project Organization
 ------------
