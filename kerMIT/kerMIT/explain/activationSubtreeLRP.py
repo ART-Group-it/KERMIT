@@ -14,7 +14,7 @@ class ActivationSubtreeLRP:
         :param tree: str
         :return: 
         '''
-        for tt in tree.allNodes():
+        for tt in kernel.subtrees(tree):
             self.kernel.dtf(tt)
 
     def generateMatrixSubTree(self):
