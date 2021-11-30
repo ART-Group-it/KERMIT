@@ -1,7 +1,7 @@
 import numpy as np
 from kerMIT import operation as op
 from kerMIT.tree import Tree
-from kerMIT.dtk import DT
+from kerMIT.dtk2 import DT
 
 
 class ActivationSubtreeLRP:
