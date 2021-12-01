@@ -1,4 +1,4 @@
-__author__ = 'lorenzo'
+__author__ = 'znz8'
 import numpy as np
 import time
 import hashlib
@@ -96,6 +96,28 @@ class DT:
         setOfTrees.add(Tree(root=tree.root, id=tree.id()))
         return setOfTrees,setOfSubTrees
 
+    def dtf(self, tree):
+        if tree in self.dtf_cache:
+            return self.dtf_cache[tree]
+        if tree.isTerminal():
+            self.dtf_cache[tree] = self.distributedVector(tree.root)
+            return self.dtf_cache[tree]
+
+        else:
+            vec = self.distributedVector(tree.root)
+            separator = self.distributedVector("separator")
+            vec = self.operation(vec,separator)
+            for c in tree.children:
+               # if not c.isTerminal():
+                #print ("child: ", c.root)
+                vecChildren = self.dtf(c)
+                vec = self.operation(vec, vecChildren)
+                #vec = self.operation(vec, dtf(c))
+
+        #print (tree, np.linalg.norm(vec)**2)
+        #print ("--------")
+        self.dtf_cache[tree] = vec
+        return self.dtf_cache[tree]
 
 class partialTreeKernel(DT):
     def __init__(self, LAMBDA = 1., MU = 1., dimension=4096, operation=op.fast_shuffled_convolution):
