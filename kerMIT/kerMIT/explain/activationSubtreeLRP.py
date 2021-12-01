@@ -14,7 +14,7 @@ class ActivationSubtreeLRP:
         :param tree: str
         :return: 
         '''
-        for tt in tree.allNodes():
+        for tt in DT.subtrees(tree)[0]:
             self.kernel.dtf(tt)
 
     def generateMatrixSubTree(self):
@@ -68,8 +68,37 @@ class ActivationSubtreeLRP:
         :return: {'tree': str(tree), 'act_sub_trees':[(alberello, np.array())]}
         '''
         # per ogni sottoalbero estraggo il valore di rilevanza e lo metto in un dizionario
-        return {'tree': tree, 'act_sub_trees': [[subtree, np.array([relevance_tree[tree_index_dict[subtree]]], dtype=np.float32)] for subtree in tree.allNodes()]}
+        return {'tree': tree, 'act_sub_trees': [[subtree, np.array([relevance_tree[tree_index_dict[subtree]]], dtype=np.float32)] for subtree in DT.subtrees(tree)[0]]}
 
+    def activation(self, relevance, tree):
+        '''
+
+        :param relevance: np.array() dim D
+        :param tree: str
+        :return: ({'tree': str(tree), 'act_sub_trees':[(subtree, np.array())]},{'tree': str(tree), 'act_sub_trees':[(subtree, np.array())]})
+        '''
+        # calcolo i dtf dei sottoalberi di tree, cosi già ce li ho in cache
+        if type(tree) is str:
+            tree = Tree(string=tree)
+
+        self.calculateDTFs(tree)
+
+        # genero la matrice M, proprietà: M*M^T = I_nn
+        m = self.generateMatrixSubTree()
+        # print(m.shape, m.transpose().shape, relevance.shape)
+        # mmt = np.dot(m, m.transpose())
+
+        # a questo punto moltiplico il vettore della rilevanza per la matrice trasposta
+        # prendo prima tree1
+        relevance_tree = self.createRelevanceVector(relevance[:4000], m.transpose())
+
+        # genero i 4 dizionari che mi servono per risalire ai sottoalberi
+        tree_index, tree_index_dict, embedding_matrix, tree_index_dict_inverse = self.relevance_matrix()
+
+        act_tree = self.saveActivation(tree, relevance_tree, tree_index_dict)
+        kernel.cleanCache()
+
+        return act_tree
 
 
     def activationRTE(self, relevance, tree1, tree2):
@@ -115,6 +144,8 @@ class ActivationSubtreeLRP:
         act_tree2 = self.saveActivation(tree2, relevance_tree_2, tree_index_dict)
         return act_tree1, act_tree2
 
+
+
     def activationQC(self, relevance, tree):
         '''
 
@@ -146,10 +177,10 @@ class ActivationSubtreeLRP:
 if __name__ == "__main__":
 
     kernel = DT(dimension=4000, LAMBDA=0.4, operation=op.fast_shuffled_convolution)
-    interpretation = 'qc' # quale modello voglio interpretare
+    interpretation = 'general' # quale modello voglio interpretare
 
     # apro il file con l'esempio da ispezionare ed estraggo primo tree1, tree2, relevance
-    f = open("relevance/relevance721.txt", "r")
+    f = open("KerMIT/relevance/relevance721.txt", "r")
     readlines = f.readlines()
     tree1 = readlines[0][:-1]
     tree2 = readlines[1][:-1]
@@ -171,5 +202,13 @@ if __name__ == "__main__":
 
         act_tree2 = act_lrp.activationQC(relevance, tree2)
         print("Esito:")
+        print(act_tree1)
+        print(act_tree2)
+    elif interpretation == 'general':
+        print(interpretation)
+        act_tree1 = act_lrp.activation(relevance, tree1)
+
+        act_tree2 = act_lrp.activation(relevance, tree2)
+        print("Activation Result :")
         print(act_tree1)
         print(act_tree2)
