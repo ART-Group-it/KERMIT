@@ -96,7 +96,7 @@ class ActivationSubtreeLRP:
         tree_index, tree_index_dict, embedding_matrix, tree_index_dict_inverse = self.relevance_matrix()
 
         act_tree = self.saveActivation(tree, relevance_tree, tree_index_dict)
-        kernel.cleanCache()
+        self.kernel.cleanCache()
 
         return act_tree
 
