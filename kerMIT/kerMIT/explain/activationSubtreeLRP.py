@@ -14,7 +14,7 @@ class ActivationSubtreeLRP:
         :param tree: str
         :return: 
         '''
-        for tt in DT.subtrees(tree)[0]:
+        for tt in DT.subtrees(tree)[1]:
             self.kernel.dtf(tt)
 
     def generateMatrixSubTree(self):
@@ -68,7 +68,7 @@ class ActivationSubtreeLRP:
         :return: {'tree': str(tree), 'act_sub_trees':[(alberello, np.array())]}
         '''
         # per ogni sottoalbero estraggo il valore di rilevanza e lo metto in un dizionario
-        return {'tree': tree, 'act_sub_trees': [[subtree, np.array([relevance_tree[tree_index_dict[subtree]]], dtype=np.float32)] for subtree in DT.subtrees(tree)[0]]}
+        return {'tree': tree, 'act_sub_trees': [[subtree, np.array([relevance_tree[tree_index_dict[subtree]]], dtype=np.float32)] for subtree in DT.subtrees(tree)[1]]}
 
     def activation(self, relevance, tree):
         '''
