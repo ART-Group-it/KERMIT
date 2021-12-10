@@ -37,6 +37,33 @@ class DT:
             "dstk" : self.dst
         }
 
+
+    @staticmethod
+    def subtrees(tree):
+        setOfTrees = set()
+        setOfSubTrees = set()
+        if tree.isPreTerminal():
+            setOfTrees.add(tree)
+            setOfSubTrees.add(tree)
+        else:
+            baseChildrenList = [[]]
+            for child in tree.children:
+                newBaseChildrenList = []
+                c_setOfTrees, c_setOfSubtrees = DT.subtrees(child)
+                setOfSubTrees = setOfSubTrees.union(c_setOfSubtrees)
+                for treeSubChild in c_setOfTrees:
+                   for treeSub in baseChildrenList:
+                       newBaseChildrenList.append(treeSub + [treeSubChild])
+                baseChildrenList = newBaseChildrenList
+            for children in baseChildrenList:
+                newTree = Tree(root=tree.root,children=children, id=tree.id())
+                setOfTrees.add(newTree)
+                setOfSubTrees.add(newTree)
+
+        setOfTrees.add(Tree(root=tree.root, id=tree.id()))
+        return setOfTrees,setOfSubTrees
+
+
     def cleanCache(self):
         self.sn_cache = {}
         self.dt_cache = {}

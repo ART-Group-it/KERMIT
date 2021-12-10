@@ -37,6 +37,7 @@ class Tree:
         self.taggedSentence = self.sentence_(posTag=True)
         self.activation_level_initialized = False
         self.activation_level = None
+        self.wasTerminal = False # True if this node was a terminal node in the original tree
 
 
     def cleanup(self):
