@@ -24,8 +24,8 @@ class ActivationSubtreeLRP:
         embedding_matrix = []
         weights = []
         count = 0
-        for tt in DT.subtrees(tree)[1]:
-            (dd, w) = self.kernel.dtf_and_weight(tt)
+        for k in DT.subtrees(tree)[1]:
+            (dd, w) = self.kernel.dtf_and_weight(k)
 
         #for k, dd in self.kernel.dtf_cache.items():
             tree_index[k] = dd
