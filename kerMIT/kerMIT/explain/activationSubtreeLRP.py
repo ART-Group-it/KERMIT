@@ -26,14 +26,13 @@ class ActivationSubtreeLRP:
         count = 0
         for k in DT.subtrees(tree)[1]:
             (dd, w) = self.kernel.dtf_and_weight(k)
-
-        #for k, dd in self.kernel.dtf_cache.items():
             tree_index[k] = dd
             tree_index_dict[k] = count
             embedding_matrix.append(dd)
             tree_index_dict_inverse[count] = k
             weights.add(w)
             count += 1
+        self.kernel.cleanCache()
         return tree_index, tree_index_dict, np.array(embedding_matrix), tree_index_dict_inverse, np.arrary(weights)
 
     def calculateDTFs(self, tree):
