@@ -30,7 +30,7 @@ class ActivationSubtreeLRP:
             tree_index_dict[k] = count
             embedding_matrix.append(dd)
             tree_index_dict_inverse[count] = k
-            weights.add(w)
+            weights.append(w)
             count += 1
         self.kernel.cleanCache()
         return tree_index, tree_index_dict, np.array(embedding_matrix), tree_index_dict_inverse, np.arrary(weights)
