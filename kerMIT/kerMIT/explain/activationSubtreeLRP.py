@@ -33,7 +33,7 @@ class ActivationSubtreeLRP:
             weights.append(w)
             count += 1
         self.kernel.cleanCache()
-        return tree_index, tree_index_dict, np.array(embedding_matrix), tree_index_dict_inverse, np.arrary(weights)
+        return tree_index, tree_index_dict, np.array(embedding_matrix), tree_index_dict_inverse, np.array(weights)
 
     def calculateDTFs(self, tree):
         '''
