@@ -1,48 +1,100 @@
+__author__ = 'Fabio Massimo Zanzotto, Lorenzo Ferrone'
+
 import numpy as np
 import time
 import hashlib
 import gc
 
-from kerMIT import operation as op
 from kerMIT.tree import Tree
-
+#import operation as op
+from kerMIT import operation as op
 #from semantic_vector import SemanticVector
 
 
 class DT:
-
-    def __init__(self, LAMBDA = 1., dimension=1024, file=None, kernelType="default",operation=op.fast_shuffled_convolution):
+    def __init__(self, LAMBDA = 1., dimension=4096, operation=op.fast_shuffled_convolution):
         self.LAMBDA = LAMBDA
         self.dimension = dimension
         self.operation = operation
         self.sn_cache = {}
         self.dt_cache = {}
         self.dtf_cache = {}
+        self.random_cache = {}
         self.result = np.zeros(self.dimension)
-        if operation in [op.randomOperation, op.randomBilinearOperation]:
-            self.mode = "binary"
-        else:
-            self.mode = "normal"
+        self.spectrum = np.zeros(self.dimension)
 
-        if file:
-            if isinstance(file,SemanticVector):
-                self.sv = file
-            else:
-                self.sv = SemanticVector(file)
+    def cleanCache(self):
+        self.sn_cache = {}
+        self.dt_cache = {}
+        self.dtf_cache = {}
+        self.random_cache = {}
+        gc.collect()
 
-        self.kernelType = kernelType
+    def distributedVector(self, s):
+        if s in self.random_cache:
+            return self.random_cache[s]
+        # h = int(hashlib.md5(s.encode()).hexdigest(),16) % 100000000              #probably too slow and not necessary ??
+        # h = abs(mmh3.hash(s)) % 1000000
 
-        self.type_dic = {
-            "default" : self.dt,
-            "dstk" : self.dst
-        }
+        h = abs(op.hash(s)) % 4294967295
 
+        # h = np.abs(hash(s))         #devo hashare s in qualche modo (controllare che basti) e
+        np.random.seed(h)            #inizializzare np.random.seed()
+        v_ = op.random_vector(self.dimension,normalized=False)
+        self.random_cache[s] = v_
+        return v_
+        # return np.random.normal(0,1./np.sqrt(self.dimension),self.dimension)
+
+#    def sRecursive(self, tree):
+#        result = np.zeros(self.dimension)
+#        if tree in self.sn_cache:
+#            return self.sn_cache[tree]
+#        if not tree.isTerminal():
+#
+#            rootVector = self.distributedVector(tree.root)
+#            separator = self.distributedVector("separator")
+#            result = self.operation(rootVector, separator)
+#
+#            for child in tree.children:
+#                vecChildren = np.sqrt(self.LAMBDA)*(self.distributedVector(child.root) + self.sRecursive(child))
+#                result = self.operation(result, vecChildren)
+#        self.spectrum = self.spectrum + result
+#
+#        return result
+
+
+    def sRecursive(self, tree):
+        result = np.zeros(self.dimension)
+        if tree in self.sn_cache:
+            return self.sn_cache[tree]
+        if tree.isPreTerminal():
+            result = np.sqrt(self.LAMBDA)*self.operation(self.operation(self.distributedVector(tree.root),
+                                                                        self.distributedVector("separator")),
+                                    self.distributedVector(tree.children[0].root))
+        elif not tree.isTerminal():
+            rootVector = self.distributedVector(tree.root)
+            separator = self.distributedVector("separator")
+            result = self.operation(rootVector, separator)
+            for child in tree.children:
+                vecChildren = (np.sqrt(self.LAMBDA)*self.distributedVector(child.root) + self.sRecursive(child))
+                result = self.operation(result, vecChildren)
+            result = np.sqrt(self.LAMBDA) * result
+        self.spectrum = self.spectrum + result
+
+        return result
+
+
+    def dt(self, tree):
+        self.spectrum = np.zeros(self.dimension)
+        self.sRecursive(tree)
+        return self.spectrum
 
     @staticmethod
     def subtrees(tree):
         setOfTrees = set()
         setOfSubTrees = set()
         if tree.isPreTerminal():
+            tree.children[0].wasTerminal = True
             setOfTrees.add(tree)
             setOfSubTrees.add(tree)
         else:
@@ -62,113 +114,6 @@ class DT:
 
         setOfTrees.add(Tree(root=tree.root, id=tree.id()))
         return setOfTrees,setOfSubTrees
-
-
-    def cleanCache(self):
-        self.sn_cache = {}
-        self.dt_cache = {}
-        self.dtf_cache = {}
-        gc.collect()
-
-    def distributedVector(self, s):
-        # h = int(hashlib.md5(s.encode()).hexdigest(),16) % 100000000              #probably too slow and not necessary ??
-        # h = abs(mmh3.hash(s)) % 1000000
-
-        h = abs(op.hash(s)) % 4294967295
-
-        # h = np.abs(hash(s))         #devo hashare s in qualche modo (controllare che basti) e
-        np.random.seed(h)            #inizializzare np.random.seed()
-        if self.mode == "binary":
-            q = 1/np.sqrt(self.dimension)
-            return np.random.choice([-q, q], self.dimension)
-        else:
-            return op.random_vector(self.dimension, normalized=False)
-        # return np.random.normal(0,1./np.sqrt(self.dimension),self.dimension)
-
-    def sRecursive(self, tree, spectrum):
-        result = np.zeros(self.dimension)
-        if not tree.isTerminal():
-            preterminal = True
-            for i,child in enumerate(tree.children):
-                childVector = self.distributedVector(child.root)
-
-                childVector = childVector + np.sqrt(self.LAMBDA)*self.sRecursive(child, spectrum)
-                #print (child, np.linalg.norm(childVector))
-                preterminal = False
-
-                result = childVector if i==0 else self.operation(result, childVector)
-
-            if not preterminal:
-                result = self.operation(self.distributedVector(tree.root), result)
-                self.result = spectrum + result
-        else:
-            result = np.zeros(self.dimension)
-
-        return result
-
-    def sn(self, tree):
-
-        #print ("++++++++++")
-        if tree in self.sn_cache:
-
-
-            #pass
-            return self.sn_cache[tree]
-        if tree.isTerminal():
-            self.sn_cache[tree] =  np.zeros(self.dimension)
-            return self.sn_cache[tree]
-            #return self.distributedVector(tree.root)
-        else:
-            vec = self.distributedVector(tree.root)
-            separator = self.distributedVector("separator")
-            vec = self.operation(vec,separator)
-            #print ("radice: ", tree.root)
-            #vv = functools.reduce(self.operation, [(self.distributedVector(c.root) + self.sn(c)) for c in tree.children])
-            #self.sn_cache[tree] = self.operation(vec, vv)
-            #return self.sn_cache[tree]
-            for c in tree.children:
-               # if not c.isTerminal():
-                #print ("child: ", c.root)
-                vecChildren = np.sqrt(self.LAMBDA)*(self.distributedVector(c.root) + self.sn(c))
-
-                vec = self.operation(vec, vecChildren)
-
-        #print (tree, np.linalg.norm(vec)**2)
-        #print ("--------")
-        self.sn_cache[tree] = vec
-        return self.sn_cache[tree]
-
-    def sn2(self, tree):
-        result = np.zeros(self.dimension)
-
-        if not tree.isTerminal():
-            preterminal = True
-            for i,child in enumerate(tree.children):
-                childVector = self.distributedVector(child.root)
-                if not child.isTerminal():
-                    childVector = childVector + np.sqrt(self.LAMBDA)*self.sn2(child)
-                    #print (child, np.linalg.norm(childVector))
-                    preterminal = False
-
-                result = childVector if i==0 else self.operation(result, childVector)
-
-            if not preterminal:
-                result = self.operation(self.distributedVector(tree.root), result)
-            else:
-                result = np.zeros(self.dimension)
-
-        return result
-
-    def dt(self, tree):
-        # result = np.zeros(self.dimension)
-        # self.sRecursive(tree, self.result)
-        # return self.result
-        if tree in self.dt_cache:
-            return self.dt_cache[tree]
-        else:
-            v = sum(self.sn(node) for node in tree.allNodes())
-            self.dt_cache[tree] = v
-        return v
 
     def dtf(self, tree):
         if tree in self.dtf_cache:
@@ -193,26 +138,92 @@ class DT:
         self.dtf_cache[tree] = vec
         return self.dtf_cache[tree]
 
-    def drule(self, tree):
-        return sum(self.dt(x) for x in tree.allRules())
-
-    def dst(self, tree):
-        """only works on lexicalized trees"""
-        if tree.lexicalized:
-            v = sum(np.outer(self.sn(node),self.sv.word(node.lemma)) for node in tree.allNodes() if not node.isTerminal())
-            v = v.reshape(v.size)
-            v = v/np.sqrt(sum(v**2))
-            return v
+    def dtf_and_weight(self, tree):
+        if tree in self.dtf_cache:
+            return self.dtf_cache[tree]
+        if tree.isTerminal():
+            penalizing_value = 1
+            if not tree.wasTerminal:
+                penalizing_value = np.sqrt(self.LAMBDA)
+            self.dtf_cache[tree] = (self.distributedVector(tree.root),penalizing_value)
+            #return self.dtf_cache[tree]
         else:
-            raise TypeError("Tree is not lexicalized")
+            penalizing_value = np.sqrt(self.LAMBDA)
+            vec = self.distributedVector(tree.root)
+            separator = self.distributedVector("separator")
+            vec = self.operation(vec,separator)
+            for c in tree.children:
+                # if not c.isTerminal():
+                #print ("child: ", c.root)
+                (vecChildren,penalizing_value_in) = self.dtf_and_weight(c)
+                vec = self.operation(vec, vecChildren)
+                #vec = self.operation(vec, dtf(c))
+                penalizing_value *= penalizing_value_in
+        #print (tree, np.linalg.norm(vec)**2)
+        #print ("--------")
+            self.dtf_cache[tree] = (vec,penalizing_value)
+        return self.dtf_cache[tree]
 
-    def kernel(self, t1, t2):
-        try:
-             f = self.type_dic[self.kernelType]
-        except KeyError:
-            print("kernelType ", self.kernelType, " not implemented.")
+    def dtf(self, tree):
+        return self.dtf_and_weight(tree)[0]
 
-        return f(t1).dot(f(t2))
+class partialTreeKernel(DT):
+    def __init__(self, LAMBDA = 1., MU = 1., dimension=4096, operation=op.fast_shuffled_convolution):
+        super(partialTreeKernel, self).__init__(LAMBDA = LAMBDA, dimension = dimension, operation = operation)
+        print ('using partial')
+        self.result = np.zeros(self.dimension)
+        self.spectrum = np.zeros(self.dimension)
+        self.dvalues = {}
+        self.mu = MU
+        self.MAXPOWER = 10
+        self.mus = [self.mu ** i for i in range(self.MAXPOWER)]
+
+    def sRecursive(self, node):
+        v = self.distributedVector(node.root)
+        result = np.zeros(self.dimension)
+        if node.isTerminal():
+            result = self.mu * v
+        else:
+            result = self.operation(self.mu*v, self.d(node.children))
+
+        result =  np.sqrt(self.LAMBDA) * result
+        self.spectrum = self.spectrum + result
+        return result
+
+    def d(self, trees):
+
+        result = self.dRecursive(trees, 0)
+        for i, c in enumerate(trees):
+            result = result + self.dRecursive(trees, i)
+
+        return result
+
+    def dRecursive(self, trees, i):
+        if i in self.dvalues:
+            return self.dvalues[i]
+
+        sci = self.sRecursive(trees[i])
+        result = np.zeros(self.dimension)
+        if i < len(trees) - 1:
+            total = self.dRecursive(trees, i+1)
+            for k in range(i+2, len(trees)):
+                total = total + self.mus[k - 1 - 1] * self.dRecursive(trees, k)
+
+        else:
+            result = sci
+        self.dvalues[i] = result
+        return result
+
+    def dt(self, tree):
+        self.dvalues = {}
+        self.spectrum = np.zeros(self.dimension)
+        self.sRecursive(tree)
+        return self.spectrum
+
+
+
+
+
 
 
 
@@ -226,15 +237,14 @@ if __name__ == "__main__":
 
 
 
-    kernel = DT(dimension=4000, LAMBDA= 0.6, operation=op.fast_shuffled_convolution)
+    kernel = partialTreeKernel(dimension=8192, LAMBDA= 0.6, operation=op.fast_shuffled_convolution)
 
-    v = kernel.drule(t)
-    vv = kernel.dt(t)
-    for r in t.allRules():
-        print (r)
+    v = kernel.sRecursive(t)
+    w = kernel.dt(t)
+
     print (v)
-    print (vv)
-    print (np.dot(v, vv))
+    print (w)
+
 
 
     #print(kernel.kernel(t,frag))

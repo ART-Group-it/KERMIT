@@ -8,6 +8,34 @@ class ActivationSubtreeLRP:
     def __init__(self, kernel):
         self.kernel = kernel
 
+
+    def on_demand_embedding_matrix(self, tree):
+        '''
+        From the kernel I extract all the subtrees and generate 4 dictionaries
+        :param kernel:
+        :return: tree_index: {subtree: vector}
+        :return: tree_index_dict: {subtree: index}
+        :return: embedding_matrix: Ordered vector matrix np.array(np.array())
+        :return: tree_index_dict_inverse: {index: subtree}
+        '''
+        tree_index = {}
+        tree_index_dict = {}
+        tree_index_dict_inverse = {}
+        embedding_matrix = []
+        weights = []
+        count = 0
+        for tt in DT.subtrees(tree)[1]:
+            (dd, w) = self.kernel.dtf_and_weight(tt)
+
+        #for k, dd in self.kernel.dtf_cache.items():
+            tree_index[k] = dd
+            tree_index_dict[k] = count
+            embedding_matrix.append(dd)
+            tree_index_dict_inverse[count] = k
+            weights.add(w)
+            count += 1
+        return tree_index, tree_index_dict, np.array(embedding_matrix), tree_index_dict_inverse, np.arrary(weights)
+
     def calculateDTFs(self, tree):
         '''
         Takes a tree as a string and generates the dtf, so I save it in cache
