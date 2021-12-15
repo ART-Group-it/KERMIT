@@ -65,8 +65,8 @@ class DT:
 
     def sRecursive(self, tree):
         result = np.zeros(self.dimension)
-        if tree in self.sn_cache:
-            return self.sn_cache[tree]
+        #if tree in self.sn_cache:
+        #    return self.sn_cache[tree]
         if tree.isPreTerminal():
             result = np.sqrt(self.LAMBDA)*self.operation(self.operation(self.distributedVector(tree.root),
                                                                         self.distributedVector("separator")),
@@ -91,28 +91,36 @@ class DT:
 
     @staticmethod
     def subtrees(tree):
-        setOfTrees = set()
-        setOfSubTrees = set()
+        #setOfTrees = set()
+        #setOfSubTrees = set()
+        setOfTrees = []
+        setOfSubTrees = []
         if tree.isPreTerminal():
             tree.children[0].wasTerminal = True
-            setOfTrees.add(tree)
-            setOfSubTrees.add(tree)
+            #setOfTrees.add(tree)
+            #setOfSubTrees.add(tree)
+            setOfTrees.append(tree)
+            setOfSubTrees.append(tree)
         else:
             baseChildrenList = [[]]
             for child in tree.children:
                 newBaseChildrenList = []
                 c_setOfTrees, c_setOfSubtrees = DT.subtrees(child)
-                setOfSubTrees = setOfSubTrees.union(c_setOfSubtrees)
+                #setOfSubTrees = setOfSubTrees.union(c_setOfSubtrees)
+                setOfSubTrees = setOfSubTrees + c_setOfSubtrees
                 for treeSubChild in c_setOfTrees:
                    for treeSub in baseChildrenList:
                        newBaseChildrenList.append(treeSub + [treeSubChild])
                 baseChildrenList = newBaseChildrenList
             for children in baseChildrenList:
                 newTree = Tree(root=tree.root,children=children, id=tree.id())
-                setOfTrees.add(newTree)
-                setOfSubTrees.add(newTree)
+                #setOfTrees.add(newTree)
+                #setOfSubTrees.add(newTree)
+                setOfTrees.append(newTree)
+                setOfSubTrees.append(newTree)
 
-        setOfTrees.add(Tree(root=tree.root, id=tree.id()))
+        #setOfTrees.add(Tree(root=tree.root, id=tree.id()))
+        setOfTrees.append(Tree(root=tree.root, id=tree.id()))
         return setOfTrees,setOfSubTrees
 
 #    def dtf(self, tree):
