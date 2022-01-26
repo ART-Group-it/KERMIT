@@ -60,12 +60,16 @@ class Tree:
     def set_activations(self,activation_value):
         self.activation_level = activation_value
 
-    def update_activations(self,activation_value):
+    def update_activations(self,activation_value, mode="sum"):
         if not self.activation_level_initialized :
             self.set_activations(activation_value)
             self.activation_level_initialized = True
         else:
-            self.activation_level = np.add(self.activation_level,activation_value)
+            if mode == "sum":
+                self.activation_level = np.add(self.activation_level, activation_value)
+            elif mode == "max":
+                self.activation_level = np.maximum(self.activation_level, activation_value)
+
 
 
     def activation(self):

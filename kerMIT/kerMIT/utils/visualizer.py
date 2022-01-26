@@ -44,7 +44,7 @@ def activationsCalculator(tree,subtrees_with_activations):
 
     for st, activations in subtrees_with_activations:
         for node in st.allNodes():
-            tree_nodes_for_activation[node.id()].update_activations(activations)
+            tree_nodes_for_activation[node.id()].update_activations(activations, mode="max")
 
     #print(tree.minmaxactivations())
 
