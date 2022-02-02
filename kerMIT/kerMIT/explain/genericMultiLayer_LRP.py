@@ -12,8 +12,9 @@ def get_activation(name, activation):
     return hook
 
 
-def getWeightAnBiasByName(layer_name):
-    weight, bias = _, _
+def getWeightAnBiasByName(model, layer_name):
+#    weight, bias = _, _
+    weight, bias = None, None
     for name, param in model.named_parameters():
         if name == layer_name + '.weight' and param.requires_grad:
             weight = param.data
