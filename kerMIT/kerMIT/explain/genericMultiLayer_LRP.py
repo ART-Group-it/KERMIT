@@ -62,14 +62,14 @@ def lrp_linear_torch(hin, w, b, hout, Rout, bias_nb_units, eps, bias_factor=0.0,
     return Rin
 
 
-def prepare_single_pass(activation, start_layer, end_layer, isFirstCompute = True):
+def prepare_single_pass(model, activation, start_layer, end_layer, isFirstCompute = True):
     hout = activation[start_layer].reshape(-1)
     if end_layer != None:
         hin = activation[end_layer].reshape(-1).cpu()
     else:
         hin = None
 
-    w, b = getWeightAnBiasByName(start_layer)
+    w, b = getWeightAnBiasByName(model, start_layer)
     w = w.reshape(w.shape[1], w.shape[0])
 
     bias_nb_units = b.shape[0]
@@ -86,12 +86,12 @@ def prepare_single_pass(activation, start_layer, end_layer, isFirstCompute = Tru
 
 
 ##### FMZ Trying an intuition
-def compute_LRP_FFNN(activation, layer_names, on_demand_embedding_matrix, single_test, demux_layer=None,
+def compute_LRP_FFNN(model, activation, layer_names, on_demand_embedding_matrix, single_test, demux_layer=None,
                      demux_span=(None, None)):
     isFirstCompute = True
     for i in range(len(layer_names) - 1):
         print(layer_names[i], layer_names[i + 1])
-        hin, w, b, hout, Rout, bias_nb_units, eps, bias_factor = prepare_single_pass(activation, layer_names[i],
+        hin, w, b, hout, Rout, bias_nb_units, eps, bias_factor = prepare_single_pass(model, activation, layer_names[i],
                                                                                      layer_names[i + 1], isFirstCompute)
         if not isFirstCompute:
             Rout = Rin
@@ -102,7 +102,7 @@ def compute_LRP_FFNN(activation, layer_names, on_demand_embedding_matrix, single
             Rin = Rin[demux_span[0], demux_span[1]]
         isFirstCompute = False
     # compute the last layer
-    _, w, b, hout, Rout, bias_nb_units, eps, bias_factor = prepare_single_pass(activation, layer_names[-1], None,
+    _, w, b, hout, Rout, bias_nb_units, eps, bias_factor = prepare_single_pass(model, activation, layer_names[-1], None,
                                                                                isFirstCompute)
     # Handling the demultiplexing of the transformer and the distributed structure encoder MLP
     # and isolating the contribution for the distributed structure encoder MLP
