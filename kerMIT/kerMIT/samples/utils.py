@@ -10,7 +10,7 @@ import transformers
 from torchtext import data as datx
 from torch import nn
 from torch import optim
-from keras.preprocessing.sequence import pad_sequences
+from keras_preprocessing.sequence import pad_sequences
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
 #if torch.cuda.is_available(): torch.cuda.manual_seed_all(10)
